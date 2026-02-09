@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Big Pic Solutions - Invoicing System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-stars" id="header-stars"></div>
+            <div class="header-glow"></div>
+            <div class="header-content">
+                <div class="header-logo">
+                    <div class="logo-mark">
+                        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="16" cy="16" r="12"/>
+                            <circle cx="16" cy="16" r="4"/>
+                            <line x1="16" y1="4" x2="16" y2="8"/>
+                            <line x1="16" y1="24" x2="16" y2="28"/>
+                            <line x1="4" y1="16" x2="8" y2="16"/>
+                            <line x1="24" y1="16" x2="28" y2="16"/>
+                        </svg>
+                    </div>
+                    <div class="header-text">
+                        <h1>Big Pic Solutions</h1>
+                        <p class="subtitle">Professional Invoicing & Client Management</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-tab="dashboard">Dashboard</button>
+            <button class="nav-tab" data-tab="clients">Clients</button>
+            <button class="nav-tab" data-tab="jobs">Jobs & Invoices</button>
+            <button class="nav-tab" data-tab="settings">Settings</button>
+        </nav>
+
+        <!-- Dashboard Tab -->
+        <div class="tab-content active" id="dashboard">
+            <!-- Goals Tracker -->
+            <div class="goals-section">
+                <h2>2025 Financial Goals</h2>
+                <div class="goals-grid">
+                    <div class="goal-card">
+                        <div class="goal-header">
+                            <span class="goal-period">Yearly</span>
+                            <span class="goal-amount" id="goal-yearly">$43,500</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-yearly"></div>
+                        </div>
+                        <div class="goal-footer">
+                            <span id="progress-yearly-amount">$0</span>
+                            <span id="progress-yearly-percent">0%</span>
+                        </div>
+                    </div>
+                    <div class="goal-card">
+                        <div class="goal-header">
+                            <span class="goal-period">Monthly</span>
+                            <span class="goal-amount" id="goal-monthly">$3,625</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-monthly"></div>
+                        </div>
+                        <div class="goal-footer">
+                            <span id="progress-monthly-amount">$0</span>
+                            <span id="progress-monthly-percent">0%</span>
+                        </div>
+                    </div>
+                    <div class="goal-card">
+                        <div class="goal-header">
+                            <span class="goal-period">Weekly</span>
+                            <span class="goal-amount" id="goal-weekly">$837</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-weekly"></div>
+                        </div>
+                        <div class="goal-footer">
+                            <span id="progress-weekly-amount">$0</span>
+                            <span id="progress-weekly-percent">0%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="goals-info">
+                    <div class="info-item">
+                        <span class="info-label">Daily Target (7-day):</span>
+                        <span class="info-value" id="goal-daily">$119</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">After Taxes (~31%):</span>
+                        <span class="info-value" id="goal-net">$30,000/year</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Revenue</div>
+                    <div class="stat-value" id="stat-revenue">$0.00</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Hours</div>
+                    <div class="stat-value" id="stat-hours">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Clients</div>
+                    <div class="stat-value" id="stat-clients">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Jobs</div>
+                    <div class="stat-value" id="stat-jobs">0</div>
+                </div>
+            </div>
+
+            <div class="dashboard-section">
+                <h2>Recent Jobs</h2>
+                <div id="recent-jobs-list" class="jobs-list">
+                    <p class="empty-state">No jobs yet</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clients Tab -->
+        <div class="tab-content" id="clients">
+            <div class="section-header">
+                <h2>Manage Clients</h2>
+                <button class="btn btn-primary" id="btn-add-client">+ Add New Client</button>
+            </div>
+
+            <div id="clients-list" class="clients-grid">
+                <p class="empty-state">No clients yet</p>
+            </div>
+
+            <!-- Add/Edit Client Modal -->
+            <div class="modal" id="client-modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="modal-title">Add New Client</h3>
+                        <button class="close-btn" id="close-client-modal">&times;</button>
+                    </div>
+                    <form id="client-form">
+                        <div class="form-group">
+                            <label for="client-name">Client Name *</label>
+                            <input type="text" id="client-name" name="name" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="client-email">Email</label>
+                                <input type="email" id="client-email" name="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="client-phone">Phone</label>
+                                <input type="tel" id="client-phone" name="phone">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="client-address">Address</label>
+                            <input type="text" id="client-address" name="address" placeholder="Street, City, State ZIP">
+                        </div>
+                        <div class="form-group">
+                            <label for="client-rate">Hourly Rate ($) *</label>
+                            <input type="number" id="client-rate" name="hourly_rate" step="0.01" min="0" required value="140.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="client-notes">Notes</label>
+                            <textarea id="client-notes" name="notes" rows="3"></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Client</button>
+                            <button type="button" class="btn btn-secondary" id="cancel-client">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jobs Tab -->
+        <div class="tab-content" id="jobs">
+            <div class="section-header">
+                <h2>Jobs & Invoices</h2>
+                <button class="btn btn-primary" id="btn-add-job">+ Add New Job</button>
+            </div>
+
+            <div id="jobs-list" class="jobs-list">
+                <p class="empty-state">No jobs yet</p>
+            </div>
+
+            <!-- Add/Edit Job Modal -->
+            <div class="modal" id="job-modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="job-modal-title">Add New Job</h3>
+                        <button class="close-btn" id="close-job-modal">&times;</button>
+                    </div>
+                    <form id="job-form">
+                        <div class="form-group">
+                            <label for="job-client">Client *</label>
+                            <select id="job-client" name="client_id" required>
+                                <option value="">-- Select a client --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="job-date">Job Date *</label>
+                            <input type="date" id="job-date" name="job_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="job-description">Description *</label>
+                            <textarea id="job-description" name="description" rows="3" required placeholder="What work was completed?"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="job-hours">Hours *</label>
+                                <input type="number" id="job-hours" name="hours" step="0.25" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="job-rate">Hourly Rate ($)</label>
+                                <input type="number" id="job-rate" name="hourly_rate" step="0.01" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="job-total">Total</label>
+                                <div class="total-display" id="job-total">$0.00</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="job-notes">Job Notes</label>
+                            <textarea id="job-notes" name="notes" rows="3" placeholder="Any additional details about this job..."></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Job</button>
+                            <button type="button" class="btn btn-secondary" id="cancel-job">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Invoice View Modal -->
+            <div class="modal" id="invoice-modal">
+                <div class="modal-content invoice-view">
+                    <div class="modal-header">
+                        <h3>Invoice Preview</h3>
+                        <button class="close-btn" id="close-invoice-modal">&times;</button>
+                    </div>
+                    <div class="invoice-actions">
+                        <button class="btn btn-primary" id="btn-pdf-download">📥 Download PDF</button>
+                        <button class="btn btn-secondary" id="btn-close-invoice">Close</button>
+                    </div>
+                    <div id="invoice-content" class="invoice-content">
+                        <!-- Invoice content will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div class="tab-content" id="settings">
+            <div class="section-header">
+                <h2>Company Settings</h2>
+            </div>
+
+            <div class="settings-container">
+                <form id="settings-form">
+                    <div class="form-group">
+                        <label for="settings-company">Company Name *</label>
+                        <input type="text" id="settings-company" name="company_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="settings-owner">Owner Name *</label>
+                        <input type="text" id="settings-owner" name="owner_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="settings-address">Address *</label>
+                        <input type="text" id="settings-address" name="address" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="settings-phone">Phone *</label>
+                            <input type="tel" id="settings-phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="settings-email">Email *</label>
+                            <input type="email" id="settings-email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="settings-rate">Default Hourly Rate ($) *</label>
+                        <input type="number" id="settings-rate" name="default_hourly_rate" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Settings</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Data Export Section -->
+            <div class="section-header" style="margin-top: 3rem;">
+                <h2>Data Export</h2>
+                <p style="color: var(--gray-light); font-size: 0.9rem; margin-top: 0.5rem;">Download your data as CSV files for backup or import into other systems.</p>
+            </div>
+
+            <div class="settings-container">
+                <div style="display: grid; gap: 1rem;">
+                    <button class="btn btn-primary" id="btn-export-clients">📊 Export Clients to CSV</button>
+                    <button class="btn btn-primary" id="btn-export-jobs">📊 Export Jobs to CSV</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
