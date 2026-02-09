@@ -1,0 +1,17 @@
+# Invoicing System
+Invoicing/database.db
+Invoicing/invoices/*.pdf
+Invoicing/__pycache__/
+Invoicing/*.pyc
+Invoicing/venv/
+Invoicing/.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

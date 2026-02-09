@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You - Big Pic Solutions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep: #0a0f1a;
+            --night: #121a2e;
+            --twilight: #1a2744;
+            --horizon: #2d4a6f;
+            --dawn: #e8b87d;
+            --sunrise: #f4a261;
+            --coral: #ef8354;
+            --light: #fdf6ec;
+            --mist: #c9d6df;
+            --star: #ffffff;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Newsreader', Georgia, serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--deep);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        /* Stars background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--star);
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Celestial glow */
+        .celestial-bg {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(232, 184, 125, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .thank-you-container {
+            text-align: center;
+            max-width: 600px;
+            animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+
+        .success-icon::before {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            background: radial-gradient(circle, var(--dawn) 0%, transparent 70%);
+            opacity: 0.3;
+            animation: breathe 4s ease-in-out infinite;
+        }
+
+        .success-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke: var(--dawn);
+            stroke-width: 1.5;
+            fill: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.2); opacity: 0.5; }
+        }
+
+        .eyebrow {
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--dawn);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .eyebrow::before,
+        .eyebrow::after {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--dawn));
+        }
+
+        .eyebrow::after {
+            background: linear-gradient(90deg, var(--dawn), transparent);
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        h1 strong {
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--dawn) 0%, var(--coral) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        p {
+            font-size: 1.125rem;
+            margin-bottom: 2.5rem;
+            color: var(--mist);
+            line-height: 1.9;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: var(--font-display);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            color: var(--deep);
+            background: linear-gradient(135deg, var(--dawn) 0%, var(--sunrise) 100%);
+            padding: 1rem 2rem;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .back-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--sunrise) 0%, var(--coral) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .back-button:hover::before {
+            opacity: 1;
+        }
+
+        .back-button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .back-button svg {
+            width: 18px;
+            height: 18px;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .back-button:hover svg {
+            transform: translateX(-4px);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(232, 184, 125, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Stars -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Celestial glow -->
+    <div class="celestial-bg"></div>
+
+    <div class="thank-you-container">
+        <div class="success-icon">
+            <svg viewBox="0 0 80 80">
+                <circle cx="40" cy="40" r="35"/>
+                <path d="M25 42 L35 52 L55 30" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        <div class="eyebrow">Message Received</div>
+
+        <h1>The journey <strong>begins</strong>.</h1>
+
+        <p>Your message has been received. I'll analyze your request and get back to you within 24 hours—likely sooner. Looking forward to exploring what's possible together.</p>
+
+        <a href="index.html" class="back-button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            <span>Return Home</span>
+        </a>
+    </div>
+
+    <script>
+        // Generate stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 80; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.setProperty('--duration', (3 + Math.random() * 4) + 's');
+            star.style.setProperty('--delay', Math.random() * 5 + 's');
+            starsContainer.appendChild(star);
+        }
+    </script>
+</body>
+</html>
