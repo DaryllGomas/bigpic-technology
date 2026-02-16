@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REPORT_TITLE — Big Pic Solutions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep: #0a0f1a;
+            --night: #121a2e;
+            --twilight: #1a2744;
+            --horizon: #2d4a6f;
+            --dawn: #e8b87d;
+            --sunrise: #f4a261;
+            --coral: #ef8354;
+            --light: #fdf6ec;
+            --mist: #c9d6df;
+            --star: #ffffff;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Newsreader', Georgia, serif;
+            --bg-card: rgba(18, 26, 46, 0.88);
+            --border-subtle: rgba(232,184,125,0.08);
+            --border-glow: rgba(232,184,125,0.18);
+            --text-muted: #6b7d8e;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--deep);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Simplified nav with back arrow */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(10, 15, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 0 24px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav a.back {
+            color: var(--mist);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .nav a.back:hover {
+            color: var(--dawn);
+        }
+
+        .nav .brand {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--dawn);
+            letter-spacing: 1px;
+        }
+
+        /* Report Hero */
+        .report-hero {
+            padding: 120px 24px 60px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .report-hero .badge {
+            font-family: var(--font-display);
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 4px 12px;
+            border-radius: 6px;
+            color: var(--coral);
+            background: rgba(239,131,84,0.1);
+            border: 1px solid rgba(239,131,84,0.2);
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .report-hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--light), var(--dawn));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .report-hero .date {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .report-hero .summary {
+            font-size: 1.1rem;
+            color: var(--mist);
+            margin-top: 1.5rem;
+            line-height: 1.8;
+        }
+
+        /* Report Content */
+        .report-content {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+        }
+
+        .report-content h2 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 3rem 0 1rem;
+            color: var(--light);
+        }
+
+        .report-content h3 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 2rem 0 0.75rem;
+            color: var(--dawn);
+        }
+
+        .report-content p {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: var(--mist);
+            margin-bottom: 1.25rem;
+        }
+
+        .report-content strong {
+            color: var(--light);
+        }
+
+        .report-content a {
+            color: var(--dawn);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(232,184,125,0.3);
+            transition: var(--transition);
+        }
+
+        .report-content a:hover {
+            border-bottom-color: var(--dawn);
+        }
+
+        .report-content ul,
+        .report-content ol {
+            margin: 1rem 0 1.5rem 1.5rem;
+            color: var(--mist);
+        }
+
+        .report-content li {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+
+        .report-content blockquote {
+            border-left: 3px solid var(--dawn);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            background: rgba(26, 39, 68, 0.3);
+            font-style: italic;
+            color: var(--mist);
+        }
+
+        .report-content code {
+            font-family: 'SF Mono', Consolas, monospace;
+            font-size: 0.9rem;
+            background: rgba(26, 39, 68, 0.5);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--dawn);
+        }
+
+        .report-content img {
+            max-width: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--border-subtle);
+            margin: 1.5rem 0;
+        }
+
+        /* Callout boxes */
+        .callout {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-left: 3px solid var(--dawn);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 2rem 0;
+        }
+
+        .callout .callout-title {
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--dawn);
+            margin-bottom: 0.5rem;
+        }
+
+        .callout p {
+            margin-bottom: 0;
+        }
+
+        /* Divider */
+        .divider {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, var(--dawn), transparent);
+            margin: 3rem auto;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 24px 60px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        footer a {
+            color: var(--dawn);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .report-hero {
+                padding: 100px 20px 40px;
+            }
+
+            .report-content {
+                padding: 0 20px 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Simplified nav with back arrow -->
+<nav class="nav">
+    <a href="/reports/" class="back" title="Back to Reports">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+            <path d="M15 18l-6-6 6-6"/>
+        </svg>
+    </a>
+    <span class="brand">REPORTS</span>
+</nav>
+
+<!-- Report Hero -->
+<div class="report-hero">
+    <span class="badge">Deep Dive</span>
+    <h1>REPORT_TITLE</h1>
+    <div class="date">REPORT_DATE</div>
+    <p class="summary">REPORT_SUMMARY</p>
+</div>
+
+<!-- Report Content -->
+<div class="report-content">
+
+    <h2>Section Heading</h2>
+    <p>Your report content goes here. Replace this with the actual body of the report.</p>
+
+    <div class="callout">
+        <div class="callout-title">Key Insight</div>
+        <p>Highlight an important takeaway in a callout box like this.</p>
+    </div>
+
+    <h3>Subsection</h3>
+    <p>Continue with more detailed analysis...</p>
+
+    <blockquote>
+        Use blockquotes for notable quotes or key data points.
+    </blockquote>
+
+    <div class="divider"></div>
+
+    <h2>Another Section</h2>
+    <p>Add as many sections as needed for your report.</p>
+
+</div>
+
+<footer>
+    <a href="/reports/">All Reports</a> &middot; <a href="https://technology.bigpicsolutions.com">Big Pic Solutions Technology</a>
+</footer>
+
+</body>
+</html>
