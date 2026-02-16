@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Big Pic Solutions - Invoicing System</title>
+    <title>Big Pic Solutions - Invoicing</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ops.css') }}">
 </head>
 <body>
     <div class="container">
@@ -31,6 +32,7 @@
                         <h1>Big Pic Solutions</h1>
                         <p class="subtitle">Professional Invoicing & Client Management</p>
                     </div>
+                    <a href="/ops" class="header-nav-link">Operations</a>
                 </div>
             </div>
         </header>
@@ -47,7 +49,7 @@
         <div class="tab-content active" id="dashboard">
             <!-- Goals Tracker -->
             <div class="goals-section">
-                <h2>2025 Financial Goals</h2>
+                <h2>2026 Financial Goals</h2>
                 <div class="goals-grid">
                     <div class="goal-card">
                         <div class="goal-header">
@@ -249,7 +251,7 @@
                         <button class="close-btn" id="close-invoice-modal">&times;</button>
                     </div>
                     <div class="invoice-actions">
-                        <button class="btn btn-primary" id="btn-pdf-download">📥 Download PDF</button>
+                        <button class="btn btn-primary" id="btn-pdf-download">Download PDF</button>
                         <button class="btn btn-secondary" id="btn-close-invoice">Close</button>
                     </div>
                     <div id="invoice-content" class="invoice-content">
@@ -302,13 +304,13 @@
             <!-- Data Export Section -->
             <div class="section-header" style="margin-top: 3rem;">
                 <h2>Data Export</h2>
-                <p style="color: var(--gray-light); font-size: 0.9rem; margin-top: 0.5rem;">Download your data as CSV files for backup or import into other systems.</p>
+                <p style="color: var(--mist); font-size: 0.9rem; margin-top: 0.5rem;">Download your data as CSV files for backup or import into other systems.</p>
             </div>
 
             <div class="settings-container">
                 <div style="display: grid; gap: 1rem;">
-                    <button class="btn btn-primary" id="btn-export-clients">📊 Export Clients to CSV</button>
-                    <button class="btn btn-primary" id="btn-export-jobs">📊 Export Jobs to CSV</button>
+                    <button class="btn btn-primary" id="btn-export-clients">Export Clients to CSV</button>
+                    <button class="btn btn-primary" id="btn-export-jobs">Export Jobs to CSV</button>
                 </div>
             </div>
         </div>
