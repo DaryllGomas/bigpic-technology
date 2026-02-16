@@ -1,0 +1,298 @@
+/* ============================================
+   Big Pic Solutions - Operations Page Styles
+   ============================================ */
+
+/* Header nav link */
+.header-nav-link {
+    margin-left: auto;
+    color: var(--mist);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--horizon);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.header-nav-link:hover {
+    color: var(--dawn);
+    border-color: var(--dawn);
+}
+
+/* ============== SCORECARD ============== */
+
+.scorecard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.scorecard-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.score-card {
+    background: linear-gradient(135deg, rgba(18, 26, 46, 0.8) 0%, rgba(26, 39, 68, 0.6) 100%);
+    border: 1px solid rgba(45, 74, 111, 0.5);
+    padding: 1.25rem 1.5rem;
+    border-radius: 8px;
+    position: relative;
+    transition: all 0.25s ease;
+}
+
+.score-card:hover {
+    border-color: rgba(232, 184, 125, 0.3);
+}
+
+.score-label {
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    color: var(--mist);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.5rem;
+}
+
+.score-value {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 500;
+    color: var(--light);
+    margin-bottom: 0.25rem;
+}
+
+.score-target {
+    font-size: 0.75rem;
+    color: var(--mist);
+    margin-bottom: 0.75rem;
+}
+
+.score-alert.has-alerts {
+    color: var(--coral);
+}
+
+/* ============== PIPELINE ============== */
+
+.pipeline-filters {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    font-family: var(--font-display);
+    padding: 0.4rem 0.875rem;
+    background: transparent;
+    border: 1px solid rgba(45, 74, 111, 0.5);
+    border-radius: 4px;
+    color: var(--mist);
+    cursor: pointer;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+    border-color: var(--dawn);
+    color: var(--light);
+}
+
+.filter-btn.active {
+    background: rgba(232, 184, 125, 0.15);
+    border-color: var(--dawn);
+    color: var(--dawn);
+}
+
+.leads-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.lead-card {
+    background: linear-gradient(135deg, rgba(18, 26, 46, 0.8) 0%, rgba(26, 39, 68, 0.6) 100%);
+    border: 1px solid rgba(45, 74, 111, 0.5);
+    padding: 1.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.lead-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--dawn), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.lead-card:hover {
+    border-color: rgba(232, 184, 125, 0.3);
+}
+
+.lead-card:hover::before {
+    opacity: 1;
+}
+
+.lead-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+}
+
+.lead-name {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--light);
+}
+
+.lead-company {
+    font-size: 0.85rem;
+    color: var(--mist);
+    margin-top: 0.25rem;
+}
+
+.lead-info-row {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--mist);
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.lead-source {
+    padding: 0.125rem 0.5rem;
+    background: rgba(45, 74, 111, 0.3);
+    border-radius: 3px;
+    font-size: 0.75rem;
+}
+
+.lead-value {
+    font-family: var(--font-display);
+    color: var(--dawn);
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+}
+
+.lead-followup {
+    font-size: 0.8rem;
+    color: var(--mist);
+    margin: 0.5rem 0;
+}
+
+.followup-overdue {
+    color: var(--coral) !important;
+    font-weight: 500;
+}
+
+/* Lead status badges */
+.lead-status-prospect .invoice-badge { background: rgba(201, 214, 223, 0.15); color: var(--mist); border: 1px solid rgba(201, 214, 223, 0.3); }
+.lead-status-contacted .invoice-badge { background: rgba(100, 180, 255, 0.15); color: #64b4ff; border: 1px solid rgba(100, 180, 255, 0.3); }
+.lead-status-meeting .invoice-badge { background: rgba(244, 162, 97, 0.15); color: var(--sunrise); border: 1px solid rgba(244, 162, 97, 0.3); }
+.lead-status-proposal .invoice-badge { background: rgba(160, 120, 255, 0.15); color: #a078ff; border: 1px solid rgba(160, 120, 255, 0.3); }
+.lead-status-won .invoice-badge { background: rgba(74, 222, 128, 0.15); color: var(--success); border: 1px solid rgba(74, 222, 128, 0.3); }
+.lead-status-lost .invoice-badge { background: rgba(248, 113, 113, 0.15); color: var(--danger); border: 1px solid rgba(248, 113, 113, 0.3); }
+
+/* ============== TIMER ============== */
+
+.timer-container {
+    max-width: 560px;
+    background: linear-gradient(135deg, rgba(18, 26, 46, 0.8) 0%, rgba(26, 39, 68, 0.6) 100%);
+    border: 1px solid rgba(45, 74, 111, 0.5);
+    padding: 2rem;
+    border-radius: 8px;
+    position: relative;
+}
+
+.timer-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--dawn), transparent);
+}
+
+.timer-display {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    background: rgba(10, 15, 26, 0.5);
+    border-radius: 6px;
+    border: 1px solid rgba(45, 74, 111, 0.4);
+}
+
+.timer-clock {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--dawn);
+    letter-spacing: 0.05em;
+}
+
+.timer-status {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    color: var(--mist);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 0.5rem;
+}
+
+.timer-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.btn-large {
+    padding: 0.875rem 2rem;
+    font-size: 0.9rem;
+    flex: 1;
+}
+
+/* ============== RESPONSIVE ============== */
+
+@media (max-width: 768px) {
+    .scorecard-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .scorecard-row {
+        grid-template-columns: 1fr;
+    }
+
+    .pipeline-filters {
+        gap: 0.25rem;
+    }
+
+    .filter-btn {
+        padding: 0.35rem 0.625rem;
+        font-size: 0.7rem;
+    }
+
+    .timer-clock {
+        font-size: 2.5rem;
+    }
+
+    .lead-info-row {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+}

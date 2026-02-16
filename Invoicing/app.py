@@ -219,6 +219,39 @@ def migrate_db():
         cursor.execute('ALTER TABLE company_settings ADD COLUMN stripe_webhook_secret TEXT DEFAULT ""')
         conn.commit()
 
+    # Create leads table if it doesn't exist
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS leads (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            company TEXT,
+            email TEXT,
+            phone TEXT,
+            source TEXT DEFAULT '',
+            status TEXT DEFAULT 'prospect',
+            pipeline_value REAL DEFAULT 0,
+            notes TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            last_contact DATE,
+            next_followup DATE
+        )
+    ''')
+    conn.commit()
+
+    # Create daily_scores table if it doesn't exist
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS daily_scores (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            score_date DATE NOT NULL UNIQUE,
+            revenue REAL DEFAULT 0,
+            hours_billed REAL DEFAULT 0,
+            outreach_count INTEGER DEFAULT 0,
+            notes TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+    conn.commit()
+
     conn.close()
 
 
@@ -1214,6 +1247,225 @@ def export_jobs():
         as_attachment=True,
         download_name=f'jobs_export_{timestamp}.csv'
     )
+
+# ============== OPS PAGE ==============
+
+@app.route('/ops')
+def ops_page():
+    """Business operations dashboard"""
+    return render_template('ops.html')
+
+# ============== LEADS ROUTES ==============
+
+@app.route('/api/leads', methods=['GET'])
+def get_leads():
+    """Get all leads, optionally filtered by status"""
+    status = request.args.get('status')
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    if status:
+        leads = cursor.execute('SELECT * FROM leads WHERE status = ? ORDER BY next_followup ASC NULLS LAST, created_at DESC', (status,)).fetchall()
+    else:
+        leads = cursor.execute('SELECT * FROM leads ORDER BY next_followup ASC NULLS LAST, created_at DESC').fetchall()
+
+    conn.close()
+    return jsonify([dict(l) for l in leads])
+
+@app.route('/api/leads', methods=['POST'])
+def add_lead():
+    """Add a new lead"""
+    data = request.json
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute('''
+            INSERT INTO leads (name, company, email, phone, source, status, pipeline_value, notes, last_contact, next_followup)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (
+            data.get('name'),
+            data.get('company', ''),
+            data.get('email', ''),
+            data.get('phone', ''),
+            data.get('source', ''),
+            data.get('status', 'prospect'),
+            float(data.get('pipeline_value', 0)),
+            data.get('notes', ''),
+            data.get('last_contact'),
+            data.get('next_followup')
+        ))
+        conn.commit()
+        lead_id = cursor.lastrowid
+        conn.close()
+        return jsonify({'success': True, 'id': lead_id}), 201
+    except Exception as e:
+        conn.close()
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+@app.route('/api/leads/<int:lead_id>', methods=['GET'])
+def get_lead(lead_id):
+    """Get a specific lead"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    lead = cursor.execute('SELECT * FROM leads WHERE id = ?', (lead_id,)).fetchone()
+    conn.close()
+
+    if not lead:
+        return jsonify({'error': 'Lead not found'}), 404
+    return jsonify(dict(lead))
+
+@app.route('/api/leads/<int:lead_id>', methods=['PUT'])
+def update_lead(lead_id):
+    """Update a lead"""
+    data = request.json
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute('''
+            UPDATE leads
+            SET name = ?, company = ?, email = ?, phone = ?, source = ?, status = ?, pipeline_value = ?, notes = ?, last_contact = ?, next_followup = ?
+            WHERE id = ?
+        ''', (
+            data.get('name'),
+            data.get('company', ''),
+            data.get('email', ''),
+            data.get('phone', ''),
+            data.get('source', ''),
+            data.get('status', 'prospect'),
+            float(data.get('pipeline_value', 0)),
+            data.get('notes', ''),
+            data.get('last_contact'),
+            data.get('next_followup'),
+            lead_id
+        ))
+        conn.commit()
+        conn.close()
+        return jsonify({'success': True})
+    except Exception as e:
+        conn.close()
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+@app.route('/api/leads/<int:lead_id>', methods=['DELETE'])
+def delete_lead(lead_id):
+    """Delete a lead"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute('DELETE FROM leads WHERE id = ?', (lead_id,))
+        conn.commit()
+        conn.close()
+        return jsonify({'success': True})
+    except Exception as e:
+        conn.close()
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+# ============== SCORECARD ROUTES ==============
+
+@app.route('/api/scorecard', methods=['GET'])
+def get_scorecard():
+    """Get scorecard data - revenue vs targets"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # Current period revenue
+    current_month = datetime.now().strftime('%Y-%m')
+    current_year = str(datetime.now().year)
+
+    month_revenue = cursor.execute(
+        "SELECT COALESCE(SUM(total), 0) FROM jobs WHERE strftime('%Y-%m', job_date) = ?",
+        (current_month,)
+    ).fetchone()[0]
+
+    week_revenue = cursor.execute(
+        "SELECT COALESCE(SUM(total), 0) FROM jobs WHERE job_date >= date('now', '-7 days')"
+    ).fetchone()[0]
+
+    year_revenue = cursor.execute(
+        "SELECT COALESCE(SUM(total), 0) FROM jobs WHERE strftime('%Y', job_date) = ?",
+        (current_year,)
+    ).fetchone()[0]
+
+    # Hours this month
+    month_hours = cursor.execute(
+        "SELECT COALESCE(SUM(hours), 0) FROM jobs WHERE strftime('%Y-%m', job_date) = ?",
+        (current_month,)
+    ).fetchone()[0]
+
+    # Pipeline value (from leads)
+    pipeline_value = cursor.execute(
+        "SELECT COALESCE(SUM(pipeline_value), 0) FROM leads WHERE status NOT IN ('won', 'lost')"
+    ).fetchone()[0]
+
+    # Leads stats
+    total_leads = cursor.execute("SELECT COUNT(*) FROM leads").fetchone()[0]
+    active_leads = cursor.execute("SELECT COUNT(*) FROM leads WHERE status NOT IN ('won', 'lost')").fetchone()[0]
+    followups_due = cursor.execute("SELECT COUNT(*) FROM leads WHERE next_followup <= date('now') AND status NOT IN ('won', 'lost')").fetchone()[0]
+
+    # Daily scores for the last 30 days
+    daily_scores = cursor.execute(
+        "SELECT * FROM daily_scores WHERE score_date >= date('now', '-30 days') ORDER BY score_date"
+    ).fetchall()
+
+    # Revenue by month (last 6 months)
+    monthly_revenue = cursor.execute('''
+        SELECT strftime('%Y-%m', job_date) as month, SUM(total) as revenue, SUM(hours) as hours
+        FROM jobs
+        WHERE job_date >= date('now', '-6 months')
+        GROUP BY strftime('%Y-%m', job_date)
+        ORDER BY month
+    ''').fetchall()
+
+    conn.close()
+
+    return jsonify({
+        'month_revenue': round(month_revenue, 2),
+        'week_revenue': round(week_revenue, 2),
+        'year_revenue': round(year_revenue, 2),
+        'month_hours': round(month_hours, 2),
+        'month_target': 2070.00,
+        'week_target': 480.77,
+        'pipeline_value': round(pipeline_value, 2),
+        'total_leads': total_leads,
+        'active_leads': active_leads,
+        'followups_due': followups_due,
+        'daily_scores': [dict(d) for d in daily_scores],
+        'monthly_revenue': [dict(m) for m in monthly_revenue]
+    })
+
+@app.route('/api/scorecard/daily', methods=['POST'])
+def save_daily_score():
+    """Save or update daily score"""
+    data = request.json
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+        score_date = data.get('score_date', datetime.now().strftime('%Y-%m-%d'))
+        cursor.execute('''
+            INSERT INTO daily_scores (score_date, revenue, hours_billed, outreach_count, notes)
+            VALUES (?, ?, ?, ?, ?)
+            ON CONFLICT(score_date) DO UPDATE SET
+                revenue = excluded.revenue,
+                hours_billed = excluded.hours_billed,
+                outreach_count = excluded.outreach_count,
+                notes = excluded.notes
+        ''', (
+            score_date,
+            float(data.get('revenue', 0)),
+            float(data.get('hours_billed', 0)),
+            int(data.get('outreach_count', 0)),
+            data.get('notes', '')
+        ))
+        conn.commit()
+        conn.close()
+        return jsonify({'success': True})
+    except Exception as e:
+        conn.close()
+        return jsonify({'success': False, 'error': str(e)}), 400
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
