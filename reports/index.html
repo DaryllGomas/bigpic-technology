@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports — AI & Technology Insights | Big Pic Solutions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep: #0a0f1a;
+            --night: #121a2e;
+            --twilight: #1a2744;
+            --horizon: #2d4a6f;
+            --dawn: #e8b87d;
+            --sunrise: #f4a261;
+            --coral: #ef8354;
+            --light: #fdf6ec;
+            --mist: #c9d6df;
+            --star: #ffffff;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Newsreader', Georgia, serif;
+            --bg-card: rgba(18, 26, 46, 0.88);
+            --bg-card-hover: rgba(26, 39, 68, 0.92);
+            --border-subtle: rgba(232,184,125,0.08);
+            --border-glow: rgba(232,184,125,0.18);
+            --text-muted: #6b7d8e;
+            --glow-gold: 0 0 30px rgba(232,184,125,0.15);
+            --radius: 12px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--deep);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+
+        /* Stars background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--star);
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(180deg, var(--deep) 0%, transparent 100%);
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-mark {
+            width: 32px;
+            height: 32px;
+            position: relative;
+        }
+
+        .logo-mark svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        nav a {
+            font-family: var(--font-display);
+            font-size: 0.8125rem;
+            font-weight: 400;
+            color: var(--mist);
+            text-decoration: none;
+            letter-spacing: 0.03em;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--dawn);
+        }
+
+        nav a.nav-active,
+        .mobile-nav-link.nav-active {
+            color: var(--dawn);
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 1001;
+        }
+
+        .hamburger-line {
+            width: 24px;
+            height: 2px;
+            background: var(--light);
+            transition: all 0.3s ease;
+            margin: 2px 0;
+        }
+
+        .mobile-menu-btn.active .hamburger-line:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .mobile-menu-btn.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active .hamburger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(10, 15, 26, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 999;
+            padding-top: 100px;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-nav.active {
+            transform: translateX(0);
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .mobile-nav-link {
+            font-family: var(--font-display);
+            color: var(--light);
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 400;
+            padding: 1rem 2rem;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-nav-link:hover {
+            color: var(--dawn);
+        }
+
+        /* Hub Hero */
+        .hub-hero {
+            padding: 160px 2rem 80px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hub-hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 300;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+        }
+
+        .hub-hero h1 strong {
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--dawn) 0%, var(--coral) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hub-hero p {
+            font-size: 1.125rem;
+            color: var(--mist);
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Report List */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .report-list {
+            padding: 0 0 80px;
+        }
+
+        .report-entry {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            margin-bottom: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius);
+            transition: var(--transition);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .report-entry:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-glow);
+            box-shadow: var(--glow-gold);
+            transform: translateY(-1px);
+        }
+
+        .report-entry .info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .report-entry .title {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--light);
+        }
+
+        .report-entry .date {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .report-entry .badges {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .report-entry .badge {
+            font-family: var(--font-display);
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 4px 10px;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+
+        .badge.deep-dive {
+            color: var(--coral);
+            background: rgba(239,131,84,0.1);
+            border: 1px solid rgba(239,131,84,0.2);
+        }
+
+        .badge.quick-insight {
+            color: var(--sunrise);
+            background: rgba(244,162,97,0.1);
+            border: 1px solid rgba(244,162,97,0.2);
+        }
+
+        .badge.latest {
+            color: var(--dawn);
+            background: rgba(232,184,125,0.1);
+            border: 1px solid rgba(232,184,125,0.2);
+        }
+
+        .report-entry .arrow {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .report-entry:hover .arrow {
+            color: var(--dawn);
+            transform: translateX(4px);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 24px;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .empty-state .icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.4;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 4rem;
+            border-top: 1px solid rgba(232, 184, 125, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-brand {
+            font-family: var(--font-display);
+            font-size: 0.875rem;
+            color: var(--mist);
+        }
+
+        .footer-info {
+            text-align: right;
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            color: var(--mist);
+            opacity: 0.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1.5rem 2rem;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .mobile-nav {
+                display: block;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+
+            .footer-info {
+                text-align: center;
+            }
+
+            body.mobile-nav-open {
+                overflow: hidden;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .report-entry {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .report-entry .arrow {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Stars -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="https://bigpicsolutions.com" class="logo">
+            <div class="logo-mark">
+                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="16" cy="16" r="12"/>
+                    <circle cx="16" cy="16" r="4"/>
+                    <line x1="16" y1="4" x2="16" y2="8"/>
+                    <line x1="16" y1="24" x2="16" y2="28"/>
+                    <line x1="4" y1="16" x2="8" y2="16"/>
+                    <line x1="24" y1="16" x2="28" y2="16"/>
+                </svg>
+            </div>
+            BIG PIC SOLUTIONS
+        </a>
+
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle mobile menu">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+
+        <ul>
+            <li><a href="https://bigpicsolutions.com">Home</a></li>
+            <li><a href="https://technology.bigpicsolutions.com">Technology</a></li>
+            <li><a href="/reports/" class="nav-active">Reports</a></li>
+            <li><a href="https://markets.bigpicsolutions.com">Markets</a></li>
+            <li><a href="https://daryllgomas.com/" target="_blank">About Me</a></li>
+        </ul>
+    </nav>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobile-nav">
+        <ul class="mobile-nav-links">
+            <li><a href="https://bigpicsolutions.com" class="mobile-nav-link">Home</a></li>
+            <li><a href="https://technology.bigpicsolutions.com" class="mobile-nav-link">Technology</a></li>
+            <li><a href="/reports/" class="mobile-nav-link nav-active">Reports</a></li>
+            <li><a href="https://markets.bigpicsolutions.com" class="mobile-nav-link">Markets</a></li>
+            <li><a href="https://daryllgomas.com/" target="_blank" class="mobile-nav-link">About Me</a></li>
+        </ul>
+    </div>
+
+    <!-- Hub Hero -->
+    <div class="hub-hero">
+        <h1>Technology <strong>Reports</strong></h1>
+        <p>Deep dives and quick insights on AI, cybersecurity, infrastructure, and the technology shaping tomorrow.</p>
+    </div>
+
+    <!-- Report Listing -->
+    <div class="container">
+        <div class="report-list">
+            <!-- REPORTS_START -->
+
+            <!-- Example entry (uncomment and duplicate when adding reports):
+            <a href="example-report-slug/" class="report-entry">
+                <div class="info">
+                    <span class="title">Report Title Here</span>
+                    <span class="date">February 16, 2026</span>
+                </div>
+                <div class="badges">
+                    <span class="badge deep-dive">Deep Dive</span>
+                    <span class="badge latest">Latest</span>
+                </div>
+                <span class="arrow">&rarr;</span>
+            </a>
+            -->
+
+            <div class="empty-state">
+                <div class="icon">&#x1F52D;</div>
+                <p>Reports are coming soon.<br>Check back for deep dives and insights on AI and technology.</p>
+            </div>
+
+            <!-- REPORTS_END -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-brand">Big Pic Solutions &middot; Portland, Oregon</div>
+        <div class="footer-info">
+            Apple Certified Support Professional<br>
+            &copy; 2007&ndash;2026 &middot; Human Intelligence + AI
+        </div>
+    </footer>
+
+    <script>
+        // Generate stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.setProperty('--duration', (3 + Math.random() * 4) + 's');
+            star.style.setProperty('--delay', Math.random() * 5 + 's');
+            starsContainer.appendChild(star);
+        }
+
+        // Mobile Navigation
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileNav = document.getElementById('mobile-nav');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        const body = document.body;
+
+        function toggleMobileNav() {
+            const isActive = mobileNav.classList.contains('active');
+            if (isActive) {
+                closeMobileNav();
+            } else {
+                openMobileNav();
+            }
+        }
+
+        function openMobileNav() {
+            mobileNav.classList.add('active');
+            mobileMenuBtn.classList.add('active');
+            body.classList.add('mobile-nav-open');
+        }
+
+        function closeMobileNav() {
+            mobileNav.classList.remove('active');
+            mobileMenuBtn.classList.remove('active');
+            body.classList.remove('mobile-nav-open');
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMobileNav);
+
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', closeMobileNav);
+        });
+
+        mobileNav.addEventListener('click', (e) => {
+            if (e.target === mobileNav) closeMobileNav();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
+                closeMobileNav();
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768 && mobileNav.classList.contains('active')) {
+                closeMobileNav();
+            }
+        });
+    </script>
+</body>
+</html>
