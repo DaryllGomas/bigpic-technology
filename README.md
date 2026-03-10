@@ -40,18 +40,19 @@ Big Pic Solutions is a cutting-edge technology support company that combines dec
 ## Project Structure
 
 ```
-BigPicSolutions/
+bigpic-technology/
 ├── assets/
 │   └── images/
-│       └── AppleCert.png   # Apple certification badge
-├── index.html              # Main website file
-├── thanks.html             # Thank you page after form submission
-├── PROJECT_TRACKER.md      # Development tracking and notes
-├── README.md               # This file
-├── GITHUB_PAGES_SETUP.md   # Deployment instructions
-├── CONTACT_FORM_SETUP.txt  # Quick form setup guide
-├── open-website.bat        # Quick launcher for the website
-└── dev-environment.bat     # Opens both website and folder
+│       └── AppleCert.png       # Apple certification badge
+├── docs/                           # Documentation
+├── reports/                        # Reports and templates
+├── .gitattributes
+├── .gitignore
+├── CLAUDE.md                       # AI assistant configuration
+├── CNAME                           # Custom domain configuration
+├── README.md                       # This file
+├── index.html                      # Main website file
+└── thanks.html                     # Thank you page after form submission
 ```
 
 ## Website Sections
@@ -68,14 +69,7 @@ BigPicSolutions/
 
 ## Deployment
 
-See `GITHUB_PAGES_SETUP.md` for detailed instructions on deploying to GitHub Pages with a working contact form.
-
-### Quick Setup for Contact Form
-
-1. Replace `YOUR_EMAIL_HERE` in index.html with your email
-2. Replace `YOUR_GITHUB_USERNAME` with your GitHub username
-3. Deploy to GitHub Pages
-4. Submit the form once to activate
+This site is deployed via GitHub Pages with a custom domain.
 
 ## Customization
 
@@ -136,8 +130,6 @@ Big Pic Solutions includes a professional invoicing and client management system
 - SQLite database
 - ReportLab for PDF generation
 - Stripe API for payments
-
-> **Note:** The Invoicing directory is listed in `.gitignore` and must be removed from Git tracking locally with `git rm -r --cached Invoicing/` to fully remove it from the repository.
 
 ## License
 
