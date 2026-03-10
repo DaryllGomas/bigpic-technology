@@ -1,10 +1,5 @@
-# Invoicing System
-Invoicing/database.db
-Invoicing/invoices/*.pdf
-Invoicing/__pycache__/
-Invoicing/*.pyc
-Invoicing/venv/
-Invoicing/.env
+# Invoicing System (entire directory - kept locally, not in repo)
+Invoicing/
 
 # OS
 .DS_Store
