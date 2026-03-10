@@ -43,15 +43,15 @@ Big Pic Solutions is a cutting-edge technology support company that combines dec
 BigPicSolutions/
 ├── assets/
 │   └── images/
-│       └── AppleCert.png    # Apple certification badge
+│       └── AppleCert.png   # Apple certification badge
 ├── index.html              # Main website file
-├── thanks.html            # Thank you page after form submission
-├── PROJECT_TRACKER.md     # Development tracking and notes
-├── README.md             # This file
-├── GITHUB_PAGES_SETUP.md # Deployment instructions
-├── CONTACT_FORM_SETUP.txt# Quick form setup guide
-├── open-website.bat      # Quick launcher for the website
-└── dev-environment.bat   # Opens both website and folder
+├── thanks.html             # Thank you page after form submission
+├── PROJECT_TRACKER.md      # Development tracking and notes
+├── README.md               # This file
+├── GITHUB_PAGES_SETUP.md   # Deployment instructions
+├── CONTACT_FORM_SETUP.txt  # Quick form setup guide
+├── open-website.bat        # Quick launcher for the website
+└── dev-environment.bat     # Opens both website and folder
 ```
 
 ## Website Sections
@@ -94,6 +94,7 @@ The website uses CSS variables for easy color customization:
 ## Contact Form
 
 The contact form uses FormSubmit.co for serverless form handling:
+
 - No sign-up required
 - No backend needed
 - Works perfectly with GitHub Pages
@@ -113,6 +114,30 @@ The contact form uses FormSubmit.co for serverless form handling:
 - Safari (latest)
 - Edge (latest)
 - Mobile browsers
+
+## Invoicing System (Not Included in Repo)
+
+Big Pic Solutions includes a professional invoicing and client management system that is maintained locally and not included in this public repository for security and privacy reasons.
+
+### What It Does
+
+- **Client Management**: Add and manage clients with contact info and hourly rates
+- **Job Tracking**: Record completed work with hours, descriptions, and notes
+- **Automatic Calculations**: Hours × Rate = Total (automatic calculation)
+- **Invoice Generation**: Professional PDF invoices with Big Pic Solutions branding
+- **Stripe Integration**: Online payment links with QR codes on invoices
+- **Dashboard**: Overview of total revenue, hours, clients, and jobs
+- **Business Operations**: Lead pipeline, scorecard, and time tracking
+- **CSV Export**: Export client and job data for reporting
+
+### Tech Stack
+
+- Python/Flask backend
+- SQLite database
+- ReportLab for PDF generation
+- Stripe API for payments
+
+> **Note:** The Invoicing directory is listed in `.gitignore` and must be removed from Git tracking locally with `git rm -r --cached Invoicing/` to fully remove it from the repository.
 
 ## License
 
