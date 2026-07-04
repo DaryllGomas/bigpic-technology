@@ -1,0 +1,190 @@
+/* ================================================================
+   DAWN SEQUENCE — styles
+   Everything that only takes effect once dawn.js has confirmed
+   WebGL + GSAP/ScrollTrigger/Lenis + desktop viewport + motion is OK,
+   and adds `dawn-active` to <html>. Until then this stylesheet is
+   inert (the .hud/.service-card rules only matter once dawn.js
+   injects the HUD markup / sets --p, which it only does after boot).
+   ================================================================ */
+
+:root {
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* Lenis drives scroll position itself — native smooth-scroll fights it. */
+html.dawn-active {
+  scroll-behavior: auto !important;
+}
+
+/* The shader sky. Base hidden state lives inline in index.html so there's
+   never a flash of an unstyled canvas before this stylesheet loads. */
+html.dawn-active #sky {
+  display: block;
+}
+
+/* The shader replaces these static night-sky decorations. */
+html.dawn-active .stars,
+html.dawn-active .celestial,
+html.dawn-active .orbit {
+  display: none;
+}
+
+/* Let the shader sky show through every section — these all have opaque
+   backgrounds in the shipped site. */
+html.dawn-active body,
+html.dawn-active .vision,
+html.dawn-active .services,
+html.dawn-active .results,
+html.dawn-active .contact {
+  background: transparent;
+}
+
+html.dawn-active .services::before {
+  background: none;
+}
+
+/* ---------- HUD (bottom-left time/phase readout) ---------- */
+.hud {
+  position: fixed;
+  left: 2rem;
+  bottom: 2rem;
+  z-index: 1000;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.15em;
+  color: var(--mist);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  pointer-events: none;
+}
+
+.hud-time {
+  font-size: 1.25rem;
+  color: var(--light);
+  font-weight: 500;
+}
+
+.hud-phase {
+  color: var(--dawn);
+}
+
+.hud-track {
+  width: 120px;
+  height: 1px;
+  background: rgba(253, 246, 236, 0.15);
+  margin-top: 0.4rem;
+  position: relative;
+}
+
+.hud-track::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -1px;
+  height: 3px;
+  width: calc(var(--p, 0) * 100%);
+  background: linear-gradient(90deg, var(--dawn), var(--coral));
+}
+
+@media (max-width: 767px) {
+  .hud {
+    display: none;
+  }
+}
+
+/* ---------- Service cards: "lit from below" scrub ----------
+   dawn.js writes --p (0 -> 1) per card via ScrollTrigger as the sun
+   (i.e. the scroll position) reaches it. */
+html.dawn-active .service-card {
+  background: rgba(10, 15, 26, 0.45);
+  border: 1px solid rgba(232, 184, 125, 0.14);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Warm glow rising from the bottom edge of the card. */
+html.dawn-active .service-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 45%;
+  background: linear-gradient(0deg, rgba(244, 162, 97, calc(var(--p, 0) * 0.16)), transparent);
+  pointer-events: none;
+}
+
+/* Repurpose the existing hover-underline as a scroll-scrubbed underline
+   while dawn is active (same specificity as the :hover rule, later in
+   source order, so it wins deterministically regardless of hover state). */
+html.dawn-active .service-card::after {
+  left: 0;
+  width: 100%;
+  transform: scaleX(var(--p, 0));
+  transform-origin: left;
+  background: linear-gradient(90deg, var(--dawn), var(--coral));
+}
+
+/* ---------- Daylight mode finale ----------
+   Once the sun has fully risen (smoothP > 0.72) dawn.js adds
+   body.daylight. Scoped to the contact section only — "you literally
+   see clearly in full daylight" by the time you reach the CTA. */
+.contact .section-title,
+.contact .contact-text,
+.contact .section-label,
+.contact .section-label::before {
+  transition: color 1.4s ease, text-shadow 1.4s ease, background 1.4s ease;
+}
+
+.submit-btn {
+  transition: background 1.4s ease, color 1.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+}
+
+.form-input {
+  transition: background 1.4s ease, color 1.4s ease, border-color 1.4s ease;
+}
+
+.form-input::placeholder {
+  transition: color 1.4s ease;
+}
+
+body.daylight .contact .section-title {
+  color: var(--deep);
+  text-shadow: 0 1px 0 rgba(253, 246, 236, 0.25);
+}
+
+body.daylight .contact .section-title strong {
+  background: linear-gradient(135deg, #b34a15 0%, #7d2f0a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body.daylight .contact-text {
+  color: rgba(10, 15, 26, 0.85);
+}
+
+body.daylight .contact .section-label {
+  color: #7d2f0a;
+}
+
+body.daylight .contact .section-label::before {
+  background: #7d2f0a;
+}
+
+body.daylight .submit-btn {
+  background: var(--deep);
+  color: var(--light);
+  box-shadow: 0 12px 40px rgba(10, 15, 26, 0.35);
+}
+
+body.daylight .form-input {
+  background: rgba(253, 246, 236, 0.55);
+  color: var(--deep);
+  border-color: rgba(10, 15, 26, 0.35);
+}
+
+body.daylight .form-input::placeholder {
+  color: rgba(10, 15, 26, 0.55);
+}
