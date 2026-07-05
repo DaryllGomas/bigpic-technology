@@ -1446,11 +1446,16 @@
                 and how to get there—no sales pitch, just honest conversation about possibility.
             </p>
 
-            <form class="contact-form" action="https://formsubmit.co/daryll.gomas@gmail.com" method="POST">
+            <!-- Anti-spam: no action in the static HTML (scraper-proof) — attached
+                 by JS on first human interaction; endpoint stored base64-encoded so
+                 the raw email never appears in the page source. -->
+            <form class="contact-form" data-e="ZGFyeWxsLmdvbWFzQGdtYWlsLmNvbQ==" method="POST">
                 <!-- FormSubmit Configuration -->
                 <input type="hidden" name="_subject" value="New contact from Big Pic Solutions website!">
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_next" value="https://bigpicsolutions.com/thanks.html">
+                <!-- Honeypot: invisible to humans; submissions that fill it are discarded -->
+                <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
 
                 <input type="text" name="name" class="form-input" placeholder="Your Name" required>
                 <input type="email" name="email" class="form-input" placeholder="Your Email" required>
@@ -1549,6 +1554,22 @@
                 closeMobileNav();
             }
         });
+
+        // Anti-spam: attach the form endpoint only when a human interacts with
+        // the form. Scrapers reading static HTML never see a submit URL.
+        (function () {
+            const form = document.querySelector('.contact-form');
+            if (!form || !form.dataset.e) return;
+            const arm = () => {
+                form.action = 'https://formsubmit.co/' + atob(form.dataset.e);
+                form.removeEventListener('focusin', arm);
+                form.removeEventListener('pointerdown', arm);
+                form.removeEventListener('touchstart', arm);
+            };
+            form.addEventListener('focusin', arm);
+            form.addEventListener('pointerdown', arm);
+            form.addEventListener('touchstart', arm, { passive: true });
+        })();
 
     </script>
 </body>
