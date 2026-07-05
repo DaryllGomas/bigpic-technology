@@ -148,7 +148,14 @@ html.dawn-active .result-metric {
   text-shadow: 0 1px 12px rgba(10, 15, 26, 0.55);
 }
 
-html.dawn-active .contact .section-title,
-html.dawn-active .contact-text {
+html.dawn-active .contact .section-title {
   text-shadow: 0 2px 22px rgba(10, 15, 26, 0.7), 0 0 60px rgba(10, 15, 26, 0.4);
+}
+
+html.dawn-active .contact-text {
+  color: var(--light); /* full warm-white — the default mist-gray drowns in the sun's glow */
+  text-shadow:
+    0 1px 3px rgba(10, 15, 26, 0.85),
+    0 2px 26px rgba(10, 15, 26, 0.85),
+    0 0 70px rgba(10, 15, 26, 0.55);
 }

@@ -163,7 +163,7 @@
       float ang = atan(pv.y - sunPos.y, pv.x - sunPos.x);
 
       // morning haze: fully risen sun softens so finale text stays readable
-      float damp = 1.0 - 0.40 * smoothstep(0.75, 1.0, uP);
+      float damp = 1.0 - 0.50 * smoothstep(0.72, 1.0, uP);
       float core = smoothstep(0.072, 0.066, d);
       float glow = (exp(-d * 5.5) * 0.85 + exp(-d * 1.8) * 0.30) * damp;
       glow *= 1.0 + 0.12 * sin(ang * 10.0 - uT * 0.35) * smoothstep(0.55, 1.0, uP);
