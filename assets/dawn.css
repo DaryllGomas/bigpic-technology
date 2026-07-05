@@ -1,5 +1,5 @@
-/* ================================================================
-   DAWN SEQUENCE — styles
+﻿/* ================================================================
+   DAWN SEQUENCE â€” styles
    Everything that only takes effect once dawn.js has confirmed
    WebGL + GSAP/ScrollTrigger/Lenis + desktop viewport + motion is OK,
    and adds `dawn-active` to <html>. Until then this stylesheet is
@@ -11,7 +11,7 @@
   --font-mono: 'JetBrains Mono', monospace;
 }
 
-/* Lenis drives scroll position itself — native smooth-scroll fights it. */
+/* Lenis drives scroll position itself â€” native smooth-scroll fights it. */
 html.dawn-active {
   scroll-behavior: auto !important;
 }
@@ -29,7 +29,7 @@ html.dawn-active .orbit {
   display: none;
 }
 
-/* Let the shader sky show through every section — these all have opaque
+/* Let the shader sky show through every section â€” these all have opaque
    backgrounds in the shipped site. */
 html.dawn-active body,
 html.dawn-active .vision,
@@ -126,124 +126,29 @@ html.dawn-active .service-card::after {
   background: linear-gradient(90deg, var(--dawn), var(--coral));
 }
 
-/* ---------- Daylight mode finale ----------
-   Once the sun has fully risen (smoothP > 0.72) dawn.js adds
-   body.daylight. Scoped to the contact section only — "you literally
-   see clearly in full daylight" by the time you reach the CTA. */
-.contact .section-title,
-.contact .contact-text,
-.contact .section-label,
-.contact .section-label::before {
-  transition: color 1.4s ease, text-shadow 1.4s ease, background 1.4s ease;
+
+/* ---------- Golden-hour readability ----------
+   The sky now caps at golden hour (never daylight), so all text
+   stays luminous-on-dark like the rest of the BigPic family.
+   These are gentle helpers for the brightest zone near the sun. */
+
+html.dawn-active .result-visual svg {
+  opacity: 0.85;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 10px rgba(10, 15, 26, 0.75));
 }
 
-.submit-btn {
-  transition: background 1.4s ease, color 1.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+html.dawn-active .result-title,
+html.dawn-active .results .section-title {
+  text-shadow: 0 2px 18px rgba(10, 15, 26, 0.65);
 }
 
-.form-input {
-  transition: background 1.4s ease, color 1.4s ease, border-color 1.4s ease;
+html.dawn-active .result-desc,
+html.dawn-active .result-metric {
+  text-shadow: 0 1px 12px rgba(10, 15, 26, 0.55);
 }
 
-.form-input::placeholder {
-  transition: color 1.4s ease;
-}
-
-body.daylight .contact .section-title {
-  color: var(--deep);
-  text-shadow: 0 1px 0 rgba(253, 246, 236, 0.25);
-}
-
-body.daylight .contact .section-title strong {
-  background: linear-gradient(135deg, #b34a15 0%, #7d2f0a 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-body.daylight .contact-text {
-  color: rgba(10, 15, 26, 0.85);
-}
-
-body.daylight .contact .section-label {
-  color: #7d2f0a;
-}
-
-body.daylight .contact .section-label::before {
-  background: #7d2f0a;
-}
-
-body.daylight .submit-btn {
-  background: var(--deep);
-  color: var(--light);
-  box-shadow: 0 12px 40px rgba(10, 15, 26, 0.35);
-}
-
-body.daylight .form-input {
-  background: rgba(253, 246, 236, 0.55);
-  color: var(--deep);
-  border-color: rgba(10, 15, 26, 0.35);
-}
-
-body.daylight .form-input::placeholder {
-  color: rgba(10, 15, 26, 0.55);
-}
-
-/* ---------- Morning ink: the Impact section ----------
-   Earlier threshold (smoothP > 0.52) — by the time "Proof of
-   possibility" scrolls over the brightening sun, its gold
-   line-art and light lettering become ink on the morning sky.
-   Same story as the daylight finale, one act earlier. */
-.result-visual,
-.result-visual svg,
-.result-title,
-.result-desc,
-.result-metric,
-.result-metric::before,
-.results .section-label,
-.results .section-label::before,
-.results .section-title {
-  transition: color 1.4s ease, stroke 1.4s ease, stroke-width 1.4s ease,
-              opacity 1.4s ease, background 1.4s ease, text-shadow 1.4s ease;
-}
-
-body.morning .result-visual {
-  color: #8a3a10; /* the SVGs' fill="currentColor" dots */
-}
-
-body.morning .result-visual svg {
-  stroke: #8a3a10;
-  stroke-width: 2;
-  opacity: 0.92;
-}
-
-body.morning .result-title {
-  color: var(--deep);
-  font-weight: 600;
-  text-shadow: 0 1px 0 rgba(253, 246, 236, 0.3);
-}
-
-body.morning .result-desc {
-  color: rgba(10, 15, 26, 0.82);
-}
-
-body.morning .result-metric {
-  color: #7d2f0a;
-}
-
-body.morning .result-metric::before {
-  background: #7d2f0a;
-}
-
-body.morning .results .section-label {
-  color: #7d2f0a;
-}
-
-body.morning .results .section-label::before {
-  background: #7d2f0a;
-}
-
-body.morning .results .section-title {
-  color: var(--deep);
-  text-shadow: 0 1px 0 rgba(253, 246, 236, 0.25);
+html.dawn-active .contact .section-title,
+html.dawn-active .contact-text {
+  text-shadow: 0 2px 22px rgba(10, 15, 26, 0.7), 0 0 60px rgba(10, 15, 26, 0.4);
 }
