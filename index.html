@@ -6,7 +6,7 @@
     <title>Big Pic Solutions — AI-Powered Technology Support</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
             --deep: #0a0f1a;
@@ -49,6 +49,18 @@
             height: 100%;
             pointer-events: none;
             z-index: 0;
+        }
+
+        /* Dawn Sequence sky canvas — hidden until dawn.js confirms it can
+           boot (WebGL + GSAP/ScrollTrigger/Lenis + desktop viewport + no
+           reduced-motion). Kept inline (not in dawn.css) so there's never
+           a flash of an unstyled canvas before the stylesheet loads. */
+        #sky {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            display: none;
         }
 
         .star {
@@ -1126,8 +1138,12 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="assets/dawn.css">
 </head>
 <body>
+    <!-- Dawn Sequence sky (WebGL) — stays hidden/inert unless dawn.js boots it -->
+    <canvas id="sky"></canvas>
+
     <!-- Stars -->
     <div class="stars" id="stars"></div>
 
@@ -1454,8 +1470,16 @@
     </footer>
 
 
+    <!-- Dawn Sequence: proven-working CDN deps, then the boot-gated module -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+    <script src="assets/dawn.js"></script>
+
     <script>
-        // Generate stars
+        // Generate stars (skipped when the Dawn Sequence shader has booted —
+        // it replaces the static stars and they'd just be hidden anyway)
+        if (!document.documentElement.classList.contains('dawn-active')) {
         const starsContainer = document.getElementById('stars');
         for (let i = 0; i < 100; i++) {
             const star = document.createElement('div');
@@ -1465,6 +1489,7 @@
             star.style.setProperty('--duration', (3 + Math.random() * 4) + 's');
             star.style.setProperty('--delay', Math.random() * 5 + 's');
             starsContainer.appendChild(star);
+        }
         }
 
         // Reveal animations
