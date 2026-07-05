@@ -188,3 +188,62 @@ body.daylight .form-input {
 body.daylight .form-input::placeholder {
   color: rgba(10, 15, 26, 0.55);
 }
+
+/* ---------- Morning ink: the Impact section ----------
+   Earlier threshold (smoothP > 0.52) — by the time "Proof of
+   possibility" scrolls over the brightening sun, its gold
+   line-art and light lettering become ink on the morning sky.
+   Same story as the daylight finale, one act earlier. */
+.result-visual,
+.result-visual svg,
+.result-title,
+.result-desc,
+.result-metric,
+.result-metric::before,
+.results .section-label,
+.results .section-label::before,
+.results .section-title {
+  transition: color 1.4s ease, stroke 1.4s ease, stroke-width 1.4s ease,
+              opacity 1.4s ease, background 1.4s ease, text-shadow 1.4s ease;
+}
+
+body.morning .result-visual {
+  color: #8a3a10; /* the SVGs' fill="currentColor" dots */
+}
+
+body.morning .result-visual svg {
+  stroke: #8a3a10;
+  stroke-width: 2;
+  opacity: 0.92;
+}
+
+body.morning .result-title {
+  color: var(--deep);
+  font-weight: 600;
+  text-shadow: 0 1px 0 rgba(253, 246, 236, 0.3);
+}
+
+body.morning .result-desc {
+  color: rgba(10, 15, 26, 0.82);
+}
+
+body.morning .result-metric {
+  color: #7d2f0a;
+}
+
+body.morning .result-metric::before {
+  background: #7d2f0a;
+}
+
+body.morning .results .section-label {
+  color: #7d2f0a;
+}
+
+body.morning .results .section-label::before {
+  background: #7d2f0a;
+}
+
+body.morning .results .section-title {
+  color: var(--deep);
+  text-shadow: 0 1px 0 rgba(253, 246, 236, 0.25);
+}
