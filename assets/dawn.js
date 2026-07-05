@@ -108,16 +108,19 @@
       vec2 pv = vec2(uv.x * aspect, uv.y);
 
       // ----- sky gradient -----
+      // Golden-hour cap: the arc ends at the moment dawn breaks — deep
+      // indigo holds the top, molten amber at the horizon. Never daylight.
+      // Keeps the whole page luminous-text-on-dark like the rest of BigPic.
       vec3 top = seg4(
         vec3(0.012, 0.020, 0.045),
         vec3(0.035, 0.058, 0.135),
-        vec3(0.080, 0.125, 0.235),
-        vec3(0.160, 0.300, 0.470), uP);
+        vec3(0.070, 0.110, 0.220),
+        vec3(0.072, 0.105, 0.215), uP);
       vec3 hor = seg4(
         vec3(0.035, 0.062, 0.110),
         vec3(0.130, 0.160, 0.310),
         vec3(0.460, 0.270, 0.360),
-        vec3(0.960, 0.635, 0.380), uP);
+        vec3(0.760, 0.420, 0.215), uP);
       vec3 col = mix(hor, top, pow(uv.y, 0.75));
 
       // ----- stars -----
@@ -133,7 +136,7 @@
         float tw = 0.55 + 0.45 * sin(uT * (0.6 + h * 2.4) + h * 40.0);
         star = s * tw * (0.35 + 0.65 * fract(h * 7.0));
       }
-      star *= 1.0 - smoothstep(0.30, 0.72, uP);
+      star *= mix(1.0, 0.28, smoothstep(0.30, 0.75, uP)); // stars never fully leave — it's still the BigPic night
       star *= smoothstep(0.10, 0.35, uv.y);
       col += vec3(star) * vec3(0.9, 0.95, 1.0);
 
@@ -142,19 +145,20 @@
 
       // ----- pre-dawn horizon glow -----
       float above = max(uv.y - hline, 0.0);
-      float hg = exp(-above * 9.0) * mix(0.10, 0.55, smoothstep(0.05, 0.75, uP));
+      float hg = exp(-above * 9.0) * mix(0.10, 0.42, smoothstep(0.05, 0.75, uP));
       col += hg * vec3(0.95, 0.55, 0.28);
 
       // ----- clouds -----
       float band = smoothstep(0.42, 0.10, uv.y) * smoothstep(0.03, 0.13, uv.y);
       float n = fbm(vec2(uv.x * 3.5 + uT * 0.008, uv.y * 9.0));
       float cloud = smoothstep(0.48, 0.85, n) * band;
-      vec3 cloudCol = mix(vec3(0.10, 0.12, 0.22), vec3(0.98, 0.62, 0.38), smoothstep(0.3, 0.9, uP));
+      vec3 cloudCol = mix(vec3(0.10, 0.12, 0.22), vec3(0.80, 0.45, 0.24), smoothstep(0.3, 0.9, uP));
       col = mix(col, cloudCol, cloud * 0.45 * smoothstep(0.15, 0.7, uP));
 
       // ----- the sun -----
       float sunT = smoothstep(0.04, 0.96, uP);
-      vec2 sunPos = vec2(0.5 * aspect, mix(-0.16, 0.68, sunT));
+      sunT = pow(sunT, 1.8); // hug the horizon through the journey, lift only at the end
+      vec2 sunPos = vec2(0.5 * aspect, mix(-0.16, 0.58, sunT)); // just-risen, never high
       float d = distance(pv, sunPos);
       float ang = atan(pv.y - sunPos.y, pv.x - sunPos.x);
 
@@ -325,10 +329,8 @@
     hudPhase.textContent = ph;
     hudTrack.style.setProperty('--p', smoothP.toFixed(3));
 
-    // Morning ink: the Impact section turns to ink as the sky brightens.
-    document.body.classList.toggle('morning', smoothP > 0.52);
-    // Daylight mode finale: dark text once the sun is fully up.
-    document.body.classList.toggle('daylight', smoothP > 0.72);
+    // Golden-hour cap: the sky stays dark enough for luminous text
+    // everywhere — no ink/daylight class flips needed.
 
     requestAnimationFrame(loop);
   }
