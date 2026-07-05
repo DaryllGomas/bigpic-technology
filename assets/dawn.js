@@ -325,6 +325,8 @@
     hudPhase.textContent = ph;
     hudTrack.style.setProperty('--p', smoothP.toFixed(3));
 
+    // Morning ink: the Impact section turns to ink as the sky brightens.
+    document.body.classList.toggle('morning', smoothP > 0.52);
     // Daylight mode finale: dark text once the sun is fully up.
     document.body.classList.toggle('daylight', smoothP > 0.72);
 
