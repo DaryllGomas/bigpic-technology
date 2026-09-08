@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Terms of Service — cliamp (Big Pic Solutions)</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep: #0a0f1a; --night: #121a2e; --twilight: #1a2744;
+            --horizon: #2d4a6f; --dawn: #e8b87d; --sunrise: #f4a261;
+            --coral: #ef8354; --light: #fdf6ec; --mist: #c9d6df;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Newsreader', Georgia, serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body); background: var(--deep);
+            color: var(--light); line-height: 1.7; padding: 4rem 1.5rem 6rem;
+            -webkit-font-smoothing: antialiased;
+        }
+        body::before {
+            content: ''; position: fixed; inset: 0 0 auto 0; height: 320px;
+            background: radial-gradient(ellipse at 50% 0%, rgba(232,184,125,0.13), transparent 70%);
+            pointer-events: none; z-index: 0;
+        }
+        main { position: relative; z-index: 1; max-width: 44rem; margin: 0 auto; }
+        .eyebrow {
+            font-family: var(--font-display); font-size: 0.75rem; font-weight: 500;
+            letter-spacing: 0.18em; text-transform: uppercase; color: var(--sunrise);
+            margin-bottom: 0.9rem;
+        }
+        h1 {
+            font-family: var(--font-display); font-weight: 600; font-size: clamp(1.9rem, 5vw, 2.6rem);
+            line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 0.6rem;
+        }
+        .updated { color: var(--mist); font-size: 0.9rem; opacity: 0.75; margin-bottom: 2.75rem; }
+        h2 {
+            font-family: var(--font-display); font-weight: 600; font-size: 1.12rem;
+            color: var(--dawn); margin: 2.5rem 0 0.75rem; letter-spacing: -0.01em;
+        }
+        p { margin-bottom: 1rem; color: var(--light); }
+        ul { margin: 0 0 1rem 1.25rem; }
+        li { margin-bottom: 0.5rem; }
+        strong { color: var(--dawn); font-weight: 500; }
+        a { color: var(--sunrise); text-decoration: none; border-bottom: 1px solid rgba(244,162,97,0.35); }
+        a:hover { border-bottom-color: var(--sunrise); }
+        code {
+            font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.86em;
+            background: var(--twilight); padding: 0.12em 0.42em; border-radius: 4px; color: var(--mist);
+        }
+        .callout {
+            background: var(--night); border-left: 2px solid var(--coral);
+            padding: 1.1rem 1.35rem; margin: 1.75rem 0; border-radius: 0 6px 6px 0;
+        }
+        .callout p:last-child { margin-bottom: 0; }
+        footer {
+            margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--twilight);
+            color: var(--mist); font-size: 0.87rem; opacity: 0.8;
+        }
+        footer a { border-bottom: none; }
+    </style>
+</head>
+<body>
+<main>
+<div class="eyebrow">Big Pic Solutions</div>
+<h1>Terms of Service — cliamp</h1>
+<p class="updated">Last updated 8 September 2026</p>
+
+<div class="callout">
+<p><strong>The short version.</strong> A private, single-user setup. No fee, no warranty, no
+service. The only person it serves is its operator, and he can switch it off whenever he likes.</p>
+</div>
+
+<h2>Scope</h2>
+<p>These terms govern the Google OAuth client named <strong>cliamp</strong> (Google Cloud project
+<code>cliamp-507800</code>), operated by Daryll Gomas of Big Pic Solutions, Portland, Oregon.</p>
+<p>The client exists for one purpose: to let its operator&rsquo;s own installation of the
+open-source terminal music player <a href="https://github.com/bjarneo/cliamp">cliamp</a> read that
+operator&rsquo;s own YouTube Music library. It is not a product or a hosted service, it is not sold
+or licensed, and it is not offered to the public.</p>
+
+<h2>Use</h2>
+<p>Access is limited to the operator&rsquo;s own Google account. Authorization is voluntary and can
+be withdrawn at any moment at
+<a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a>.</p>
+<p>The client requests read-only access
+(<code>youtube.readonly</code>) and cannot alter the account in any way. Use of it must comply with
+the <a href="https://www.youtube.com/t/terms">YouTube Terms of Service</a> and Google&rsquo;s
+applicable API policies.</p>
+
+<h2>Data</h2>
+<p>Handling of data is described in the <a href="privacy.html">Privacy Policy</a>. In summary: data
+stays on the operator&rsquo;s local machine and is never transmitted to Big Pic Solutions or to any
+third party.</p>
+
+<h2>No warranty</h2>
+<p>This client is provided &ldquo;as is,&rdquo; without warranty of any kind, express or implied,
+including merchantability, fitness for a particular purpose, and non-infringement. It may stop
+working at any time — for example if credentials are revoked, if the underlying APIs change, or if
+the project is simply deleted.</p>
+
+<h2>Limitation of liability</h2>
+<p>To the fullest extent permitted by law, Big Pic Solutions and Daryll Gomas are not liable for any
+damages arising from the use of, or inability to use, this OAuth client.</p>
+
+<h2>Third-party software</h2>
+<p>cliamp is independent software published by its own author under the MIT License. Big Pic
+Solutions did not write it, does not maintain it, and makes no representations about it. This
+project is not affiliated with, endorsed by, or sponsored by Google LLC or YouTube.</p>
+
+<h2>Changes and termination</h2>
+<p>These terms may change; the revision date above will change with them. The operator may delete
+the underlying Google Cloud project at any time, which ends all access permanently.</p>
+
+<h2>Contact</h2>
+<p>Daryll Gomas — <a href="mailto:daryll.gomas@gmail.com">daryll.gomas@gmail.com</a></p>
+
+<footer>
+<a href="/">Big Pic Solutions</a> &middot; <a href="privacy.html">Privacy Policy</a> &middot;
+<a href="index.html">About this app</a>
+</footer>
+</main>
+</body>
+</html>
